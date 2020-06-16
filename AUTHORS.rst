@@ -1,0 +1,13 @@
+..
+    Copyright (C) 2020 CERN.
+
+    Invenio-Records-Agent is free software; you can redistribute it and/or
+    modify it under the terms of the MIT License; see LICENSE file for more
+    details.
+
+Authors
+=======
+
+High-level API for wokring with records, files, persistent identifers and search.
+
+- CERN <info@inveniosoftware.org>
