@@ -26,6 +26,7 @@ class UUIDResolver(object):
 
     def resolve(self, pid_value):
         """Resolver that bypasses PIDStore.
+
         :param pid_value: Persistent identifier.
         :returns: A tuple containing (pid, object).
         """
@@ -40,11 +41,13 @@ class UUIDResolver(object):
         # todo: create a pid wrapper
         # todo: handle execptions (e.g. no results for getting record is
         #       detected here)
-        return PersistentIdentifier(
-            pid_type='recid',
-            pid_value=pid_value,
-            object_type='rec',
-            object_uuid=object_uuid,
-            status=PIDStatus.REGISTERED
-        ), self.object_getter(object_uuid)
-
+        return (
+            PersistentIdentifier(
+                pid_type="recid",
+                pid_value=pid_value,
+                object_type="rec",
+                object_uuid=object_uuid,
+                status=PIDStatus.REGISTERED,
+            ),
+            self.object_getter(object_uuid),
+        )
