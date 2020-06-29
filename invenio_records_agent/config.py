@@ -8,5 +8,8 @@
 
 """Configuration for Invenio-Records-Agent."""
 
-#RECORDS_AGENT_DEFAULT_VALUE = 'foobar'
-#"""Default value for the application."""
+from elasticsearch import VERSION as ES_VERSION
+
+lt_es7 = ES_VERSION[0] < 7
+
+PIDSTORE_RECID_FIELD = "recid"

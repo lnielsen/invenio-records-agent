@@ -21,7 +21,7 @@ class Action:
         raise NotImplementedError()
 
 
-class MacroAction:
+class MacroAction(Action):
     """Macro action for running multiple actions."""
 
     #: List of actions to execute
@@ -39,5 +39,6 @@ class MacroAction:
 
 
 class PublishAction(MacroAction):
-    actions = [
-    ]
+    """Record publishing action."""
+
+    actions = []

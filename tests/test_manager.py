@@ -12,6 +12,7 @@ from uuid import uuid4
 
 import pytest
 from flask_principal import Identity, UserNeed
+
 from invenio_records_agent import RecordManager, RecordManagerFactory
 
 
