@@ -18,7 +18,7 @@ from invenio_search import RecordsSearch
 
 from .config import lt_es7
 from .errors import PermissionDeniedError
-from .search import es_search_factory
+from .search import SearchEngine
 from .search.serializers import es_to_record
 from .state import RecordState
 
@@ -35,6 +35,7 @@ class RecordManagerConfig:
     # Class dependency injection
     indexer_cls = RecordIndexer
     search_cls = RecordsSearch
+    search_engine_cls = SearchEngine
 
     # pid = 'recidv2'
     # pids = ['doi', ]
@@ -78,7 +79,7 @@ class RecordManagerFactory:
 
     def search(self):
         """Factory for creating a search class."""
-        return self._config.search_cls()
+        return self._config.search_engine_cls(self._config.search_cls)
 
     def permission(self, action_name, **kwargs):
         """Factory for creating permissions from a permission policy."""
@@ -132,21 +133,21 @@ class RecordManager:
     @classmethod
     def search(cls, querystring, identity, pagination=None, *args, **kwargs):
         """Search for records matching the querystring."""
-        search_obj = cls.factory.search()
-        search_action = search_obj.with_preference_param().params(version=True)
-        search_action = search_action[
-            pagination["from_idx"]: pagination["to_idx"]
-        ]
+        # Create search object
+        search_engine = cls.factory.search()
+
+        # Add search arguments
+        extras = {}
         if not lt_es7:
-            search_action = search_action.extra(track_total_hits=True)
+            extras["track_total_hits"] = True
 
-        search_action = es_search_factory(
-            search=search_action, query_string=querystring
-        )
+        search_engine.search_arguments(pagination=pagination, extras=extras)
 
-        # Execute search
-        search_result = search_action.execute()
-        # Mutate search results into a list of records
+        # Parse query and execute search
+        query = search_engine.parse_query(querystring)
+        search_result = search_engine.execute_search(query)
+
+        # Mutate search results into a list of record states
         record_list = []
         for hit in search_result["hits"]["hits"]:
             # hit is ES AttrDict

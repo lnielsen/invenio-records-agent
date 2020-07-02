@@ -7,8 +7,6 @@
 
 """Invenio Resources module to create REST APIs."""
 
-from .factory import default_search_factory
+from .engine import SearchEngine
 
-es_search_factory = default_search_factory
-
-__all__ = "es_search_factory"
+__all__ = "SearchEngine"
