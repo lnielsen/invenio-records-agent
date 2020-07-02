@@ -30,7 +30,6 @@ class TombstoneState(RecordState):
     record = None
 
 
-
 # class DraftState(RecordState):
 #     """."""
 #     pid = None

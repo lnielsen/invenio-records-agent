@@ -11,9 +11,3 @@ API Docs
 
 .. automodule:: invenio_records_agent.ext
    :members:
-
-Views
------
-
-.. automodule:: invenio_records_agent.views
-   :members:
